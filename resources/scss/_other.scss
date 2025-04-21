@@ -1,0 +1,53 @@
+.mr-btn-success {
+    background: linear-gradient(
+            150deg,
+            rgb(148, 172, 225) 0%,
+            rgb(57, 171, 213) 30%,
+            rgb(35, 191, 113) 30%,
+            rgb(36, 163, 1) 100%
+    );
+    border-color: #ffffff;
+    color: #fff;
+    border-radius: 7px;
+}
+
+.mr-btn-danger {
+    background: linear-gradient(
+            150deg,
+            rgba(159, 118, 118, 0.5) 0%,
+            rgba(133, 94, 94, 0.5) 30%,
+            rgba(108, 60, 60, 0.5) 30%,
+            rgba(41, 51, 39, 0.5) 100%
+    );
+    border-color: #ffffff;
+    color: #ffffff;
+    border-radius: 7px;
+}
+
+.mr-btn-primary {
+    background: rgb(38, 138, 218) 30%;
+    border-color: #ffffff;
+    color: #ffffff;
+    border-radius: 7px;
+}
+
+.glass-button {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    color: #000000;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background 0.3s, box-shadow 0.3s;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &:active {
+        background: rgba(255, 255, 255, 0.4);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
