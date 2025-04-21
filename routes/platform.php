@@ -19,6 +19,7 @@ use App\Orchid\Screens\System\CronScreen;
 use App\Orchid\Screens\System\FailedJobsScreen;
 use App\Orchid\Screens\System\PurgeScreen;
 use App\Orchid\Screens\System\SettingsScreen;
+use App\Orchid\Screens\Trading\TradingScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
 use App\Orchid\Screens\User\UserProfileScreen;
@@ -113,4 +114,5 @@ Route::screen('system/cron', CronScreen::class)->name('system.info.cron');
 Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
 // Project
+Route::screen('trading/list', TradingScreen::class)->name('trading.list');
 

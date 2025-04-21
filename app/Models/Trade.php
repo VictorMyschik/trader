@@ -6,12 +6,14 @@ namespace App\Models;
 
 use App\Enum\StockType;
 use App\Enum\Strategy;
+use App\Models\Lego\Fields\ActiveFieldTrait;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\ORM\ORM;
 
-class Trading extends ORM
+class Trade extends ORM
 {
     use DescriptionNullableFieldTrait;
+    use ActiveFieldTrait;
 
     protected $table = 'trading';
     protected $fillable = [
@@ -21,7 +23,7 @@ class Trading extends ORM
         'pair',
         'skip_sum',
         'description',
-        'is_active',
+        'active',
         'strategy'
     ];
 

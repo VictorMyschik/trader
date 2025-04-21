@@ -18,4 +18,13 @@ enum Strategy: int
             self::GROK => 'Grok',
         };
     }
+
+    public static function getSelectList(): array
+    {
+        return [
+            self::STRATEGY_BASE->value          => self::STRATEGY_BASE->getLabel(),
+            self::STRATEGY_SMART_ANALISE->value => self::STRATEGY_SMART_ANALISE->getLabel(),
+            self::GROK->value                   => self::GROK->getLabel(),
+        ];
+    }
 }

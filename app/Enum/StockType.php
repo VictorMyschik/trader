@@ -18,4 +18,13 @@ enum StockType: int
             self::PAYEER => 'PAYEER',
         };
     }
+
+    public static function getSelectList(): array
+    {
+        return [
+            self::EXMO->value   => self::EXMO->getLabel(),
+            self::YOBIT->value  => self::YOBIT->getLabel(),
+            self::PAYEER->value => self::PAYEER->getLabel(),
+        ];
+    }
 }
