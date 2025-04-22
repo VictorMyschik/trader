@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Trading;
 
+use App\Orchid\Filters\TradingFilter;
 use App\Orchid\Layouts\Trading\TradeEditLayout;
+use App\Orchid\Layouts\Trading\TradeListLayout;
 use App\Services\Trading\TradingRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Orchid\Screen\Actions\Button;
+use Orchid\Screen\Actions\ModalToggle;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
 
@@ -23,16 +25,17 @@ class TradingScreen extends Screen
     public function query(): iterable
     {
         return [
-            'list' => null,
+            'list' => TradingFilter::runQuery(),
         ];
     }
 
     public function commandBar(): iterable
     {
         return [
-            Button::make('add')
+            ModalToggle::make('add')
                 ->class('mr-btn-danger')
                 ->icon('plus')
+                ->modal('trading_modal')
                 ->novalidate()
                 ->method('saveTrade', ['id' => 0])
         ];
@@ -40,8 +43,8 @@ class TradingScreen extends Screen
 
     public function layout(): iterable
     {
-
         return [
+            TradeListLayout::class,
             Layout::modal('trading_modal', TradeEditLayout::class)->async('asyncGetTrade'),
         ];
     }
@@ -56,15 +59,21 @@ class TradingScreen extends Screen
     public function saveTrade(Request $request, int $id): void
     {
         $input = Validator::make($request->all(), [
-            'active'      => 'boolean',
-            'stock'       => 'required|integer',
-            'pair'        => 'required|string|max:20',
-            'different'   => 'required|numeric|min:0|max:100',
-            'max_trade'   => 'required|numeric|min:0',
-            'strategy'    => 'required|integer',
-            'description' => 'string|max:255',
-        ])->validated();
+            'trade.active'      => 'boolean',
+            'trade.stock'       => 'required|integer',
+            'trade.pair'        => 'required|string|max:20',
+            'trade.different'   => 'required|numeric|min:0|max:100',
+            'trade.max_trade'   => 'required|numeric|min:0',
+            'trade.skip_sum'    => 'required|numeric|min:0',
+            'trade.strategy'    => 'required|integer',
+            'trade.description' => 'nullable|string|max:255',
+        ])->validated()['trade'];
 
         $this->tradingRepository->saveTrade($id, $input);
+    }
+
+    public function remove(int $id): void
+    {
+        $this->tradingRepository->deleteTrade($id);
     }
 }

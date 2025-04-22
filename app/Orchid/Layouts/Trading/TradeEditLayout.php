@@ -40,10 +40,15 @@ class TradeEditLayout extends Rows
                 ->required()
                 ->title('Max trade sum'),
 
+            Input::make('trade.skip_sum')
+                ->type('number')
+                ->required()
+                ->title('Skip sum'),
+
             Select::make('trade.strategy')
                 ->options(Strategy::getSelectList())
                 ->required()
-                ->title('Key'),
+                ->title('Strategy'),
 
             TextArea::make('trade.description')
                 ->rows(3)

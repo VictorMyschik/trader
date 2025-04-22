@@ -9,14 +9,29 @@ use App\Enum\Strategy;
 use App\Models\Lego\Fields\ActiveFieldTrait;
 use App\Models\Lego\Fields\DescriptionNullableFieldTrait;
 use App\Models\ORM\ORM;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 
 class Trade extends ORM
 {
-    use DescriptionNullableFieldTrait;
+    use AsSource;
+    use Filterable;
     use ActiveFieldTrait;
+    use DescriptionNullableFieldTrait;
 
     protected $table = 'trading';
     protected $fillable = [
+        'stock',
+        'different',
+        'max_trade',
+        'pair',
+        'skip_sum',
+        'description',
+        'active',
+        'strategy'
+    ];
+    protected array $allowedSorts = [
+        'id',
         'stock',
         'different',
         'max_trade',

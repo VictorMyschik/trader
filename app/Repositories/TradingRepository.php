@@ -24,4 +24,9 @@ final readonly class TradingRepository extends DatabaseRepository implements Tra
 
         return $this->db->table('trading')->insertGetId($data);
     }
+
+    public function deleteTrade(int $id): void
+    {
+        $this->db->table('trading')->where('id', $id)->delete();
+    }
 }

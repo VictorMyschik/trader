@@ -11,4 +11,6 @@ interface TradingRepositoryInterface
     public function getById(int $id): ?Trade;
 
     public function saveTrade(int $id, array $data): int;
+
+    public function deleteTrade(int $id): void;
 }
