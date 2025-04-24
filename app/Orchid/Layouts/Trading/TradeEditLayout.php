@@ -32,6 +32,9 @@ class TradeEditLayout extends Rows
 
             Input::make('trade.different')
                 ->type('number')
+                ->min(0)
+                ->max(100)
+                ->step(0.01)
                 ->required()
                 ->title('Different, %'),
 

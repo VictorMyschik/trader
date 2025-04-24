@@ -50,5 +50,9 @@ class TradingJob implements ShouldQueue
         };
 
         $service->trade();
+
+        sleep(1);
+
+        TradingJob::dispatch($this->id);
     }
 }

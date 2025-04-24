@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens\Trading;
 
+use App\Jobs\TradingJob;
 use App\Orchid\Filters\TradingFilter;
 use App\Orchid\Layouts\Trading\TradeEditLayout;
 use App\Orchid\Layouts\Trading\TradeListLayout;
@@ -70,6 +71,11 @@ class TradingScreen extends Screen
         ])->validated()['trade'];
 
         $this->tradingRepository->saveTrade($id, $input);
+    }
+
+    public function runTrade(int $id): void
+    {
+        TradingJob::dispatch($id);
     }
 
     public function remove(int $id): void

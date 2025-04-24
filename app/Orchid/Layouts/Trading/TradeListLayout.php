@@ -19,6 +19,10 @@ class TradeListLayout extends Table
             TD::make('id', 'ID')->sort(),
             TD::make('active', 'Active')->sort()->active(),
             TD::make('pair')->sort(),
+            TD::make('different')->sort(),
+            TD::make('max_trade')->sort(),
+            TD::make('skip_sum')->sort(),
+            TD::make('strategy')->render(fn(Trade $trade) => $trade->getStrategy()->getLabel())->sort(),
             TD::make('description', 'Description')->width('50%')->defaultHidden(),
             TD::make('created_at', 'Created')
                 ->render(fn(Trade $trade) => $trade->created_at->format('d.m.Y'))
@@ -29,17 +33,21 @@ class TradeListLayout extends Table
                 ->sort()
                 ->defaultHidden(),
 
-            TD::make('#', 'Действия')
+            TD::make('#', '#')
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
                 ->render(function (Trade $trade) {
                     return DropDown::make()->icon('options-vertical')->list([
                         ModalToggle::make('Edit')
+                            ->modalTitle('Trade')
                             ->icon('pencil')
                             ->modal('trading_modal')
                             ->novalidate()
                             ->method('saveTrade', ['id' => $trade->id()]),
-
+                        Button::make('Run')
+                            ->icon('run')
+                            ->confirm('This item will be run.')
+                            ->method('runTrade', ['id' => $trade->id()]),
                         Button::make('Delete')
                             ->icon('trash')
                             ->confirm('This item will be removed permanently.')
