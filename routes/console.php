@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\System\CronService;
 use Illuminate\Foundation\Console\ClosureCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
@@ -11,5 +12,5 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::call(function () {
-    //new CronService()->runAllActive();
+    app(CronService::class)->runAllActive();
 })->name('runAllActive')->description('Run all active cron jobs');

@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\Services\System;
 
 use App\Models\System\Cron;
+use App\Orchid\Screens\System\Enum\CronKeyEnum;
+use App\Services\Trading\GrokTradingService;
 use DateInterval;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
 final readonly class CronService
 {
-    public function __construct() {}
+    public function __construct(private GrokTradingService $service) {}
 
     public function setLog(string $message): void
     {
@@ -47,9 +49,9 @@ final readonly class CronService
     public function run(Cron $cron): void
     {
         try {
-           /* match ($cron->getCronKey()) {
-                //  CronKeyEnum::LINKS => $this->service->runFromCron(),
-            };*/
+            match ($cron->getCronKey()) {
+                CronKeyEnum::GROK => $this->service->run(),
+            };
 
             $cron->setLastWork(now());
             $cron->save();

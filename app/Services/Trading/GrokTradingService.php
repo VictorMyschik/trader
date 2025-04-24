@@ -13,15 +13,17 @@ use App\Services\Trading\Exmo\GrokClient;
 
 final readonly class GrokTradingService
 {
+    private const string PAIR = 'BTC_USDT';
+
     public function __construct(
         private ExmoClient                 $client,
         private GrokClient                 $grokClient,
         private TradingRepositoryInterface $tradingRepository,
     ) {}
 
-    public function run(string $pair): void
+    public function run(): void
     {
-        $stockData = $this->getStockData($pair);
+        $stockData = $this->getStockData(self::PAIR);
 
         $json = json_encode($stockData, JSON_PRETTY_PRINT);
 
@@ -30,8 +32,8 @@ final readonly class GrokTradingService
         $response = $this->grokClient->send($message);
 
         $isDone = match ($response->action) {
-            GrokActionEnum::BUY => $this->by($pair, $response->price),
-            GrokActionEnum::SELL => $this->sell($pair, $response->price),
+            GrokActionEnum::BUY => $this->by(self::PAIR, $response->price),
+            GrokActionEnum::SELL => $this->sell(self::PAIR, $response->price),
             GrokActionEnum::HOLD => $this->hold(),
             GrokActionEnum::CANCEL => $this->cancel($response->orderId),
         };
@@ -90,7 +92,8 @@ final readonly class GrokTradingService
     }
 
 
-    private function hold(): true {
+    private function hold(): true
+    {
         return true;
     }
 

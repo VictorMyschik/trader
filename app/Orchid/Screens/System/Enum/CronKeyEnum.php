@@ -6,12 +6,12 @@ namespace App\Orchid\Screens\System\Enum;
 
 enum CronKeyEnum: string
 {
-    case LINKS = 'links';
+    case GROK = 'links';
 
     public function getLabel(): string
     {
         return match ($this) {
-            self::LINKS => 'Парсинг ссылок',
+            self::GROK => 'Grok trading',
         };
     }
 
