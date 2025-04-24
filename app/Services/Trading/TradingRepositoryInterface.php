@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Trading;
 
 use App\Models\Trade;
+use App\Services\Trading\DTO\GrokResponseDto;
 
 interface TradingRepositoryInterface
 {
@@ -15,4 +16,8 @@ interface TradingRepositoryInterface
     public function deleteTrade(int $id): void;
 
     public function getActiveTradingList(): array;
+
+    public function clearGrokTradingLog(): void;
+
+    public function saveGrokTradingLog(GrokResponseDto $log, bool $isDone): void;
 }

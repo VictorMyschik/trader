@@ -44,6 +44,11 @@ final class ExmoClient implements StockClientInterface
         return $this->apiQuery('user_open_orders');
     }
 
+    public function getTicker(): array
+    {
+        return $this->apiQuery('ticker');
+    }
+
     /**
      * API Exmo
      * Downloaded from https://github.com/exmo-dev/exmo_api_lib/blob/master/php/exmo.php

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Models\GrokTradingLog;
 use App\Models\Trade;
+use App\Services\Trading\DTO\GrokResponseDto;
 use App\Services\Trading\TradingRepositoryInterface;
 
 final readonly class TradingRepository extends DatabaseRepository implements TradingRepositoryInterface
@@ -33,5 +35,21 @@ final readonly class TradingRepository extends DatabaseRepository implements Tra
     public function getActiveTradingList(): array
     {
         return Trade::where('active', true)->get()->all();
+    }
+
+    public function clearGrokTradingLog(): void
+    {
+        $this->db->table(GrokTradingLog::getTableName())->truncate();
+    }
+
+    public function saveGrokTradingLog(GrokResponseDto $log, bool $isDone): void
+    {
+        $this->db->table(GrokTradingLog::getTableName())->insert([
+            'action'   => $log->action->value,
+            'price'    => $log->price,
+            'order_id' => $log->orderId,
+            'reason'   => $log->reason,
+            'done'     => $isDone,
+        ]);
     }
 }

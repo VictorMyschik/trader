@@ -20,6 +20,7 @@ class PlatformProvider extends OrchidServiceProvider
     {
         return [
             Menu::make('Trading')->route('trading.list')->icon('chart-line'),
+            Menu::make('Grok Trading Log')->route('trading.grok.log')->icon('list'),
             Menu::make('System')->icon('settings')->list([
                 Menu::make('Cron')->route('system.info.cron'),
                 Menu::make('Cache')->route('system.cache'),

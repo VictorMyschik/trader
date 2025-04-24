@@ -19,6 +19,7 @@ use App\Orchid\Screens\System\CronScreen;
 use App\Orchid\Screens\System\FailedJobsScreen;
 use App\Orchid\Screens\System\PurgeScreen;
 use App\Orchid\Screens\System\SettingsScreen;
+use App\Orchid\Screens\Trading\GrokTradingLogScreen;
 use App\Orchid\Screens\Trading\TradingScreen;
 use App\Orchid\Screens\User\UserEditScreen;
 use App\Orchid\Screens\User\UserListScreen;
@@ -115,4 +116,5 @@ Route::screen('system/purge', PurgeScreen::class)->name('system.purge');
 Route::screen('system/failed-jobs', FailedJobsScreen::class)->name('system.failed.jobs');
 // Project
 Route::screen('trading/list', TradingScreen::class)->name('trading.list');
+Route::screen('trading/grok/log', GrokTradingLogScreen::class)->name('trading.grok.log');
 
