@@ -29,4 +29,9 @@ final readonly class TradingRepository extends DatabaseRepository implements Tra
     {
         $this->db->table('trading')->where('id', $id)->delete();
     }
+
+    public function getActiveTradingList(): array
+    {
+        return Trade::where('active', true)->get()->all();
+    }
 }

@@ -13,4 +13,6 @@ interface TradingRepositoryInterface
     public function saveTrade(int $id, array $data): int;
 
     public function deleteTrade(int $id): void;
+
+    public function getActiveTradingList(): array;
 }

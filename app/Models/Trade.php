@@ -49,22 +49,22 @@ class Trade extends ORM
 
     public function getDifferent(): float
     {
-        return $this->Different;
+        return (float)$this->different;
     }
 
     public function getMaxTrade(): float
     {
-        return $this->MaxTrade;
+        return (float)$this->max_trade;
     }
 
     public function getPair(): string
     {
-        return $this->Pair;
+        return $this->pair;
     }
 
     public function getSkipSum(): float
     {
-        return $this->SkipSum;
+        return (float)$this->skip_sum;
     }
 
     public function getStrategy(): Strategy
