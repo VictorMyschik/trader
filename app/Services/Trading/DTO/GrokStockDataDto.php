@@ -17,7 +17,8 @@ final readonly class GrokStockDataDto
         public string        $high24h,
         public string        $low24h,
         public GrokOrderBook $orderBook,
-        public array         $openOrders,
-        public array         $balance //GrokBalanceDto[],
+        public array         $myOpenOrders,
+        public array         $myBalance, //GrokBalanceDto[],
+        public array         $myHistory //GrokBalanceDto[],
     ) {}
 }

@@ -11,6 +11,6 @@ class MyTest extends TestCase
     {
         /** @var GrokTradingService $service */
         $service = app(GrokTradingService::class);
-        $service->run('AI16Z_USDT');
+        $service->run();
     }
 }

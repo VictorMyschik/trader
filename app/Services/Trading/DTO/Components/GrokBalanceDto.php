@@ -8,6 +8,6 @@ final readonly class GrokBalanceDto
 {
     public function __construct(
         public string $currency,
-        public float  $value,
+        public float  $amount,
     ) {}
 }

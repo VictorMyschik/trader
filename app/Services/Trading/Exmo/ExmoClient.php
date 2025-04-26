@@ -49,6 +49,11 @@ final class ExmoClient implements StockClientInterface
         return $this->apiQuery('ticker');
     }
 
+    public function getUserTradeHistory(string $pair): array
+    {
+        return $this->apiQuery('user_trades', ['pair' => $pair]);
+    }
+
     /**
      * API Exmo
      * Downloaded from https://github.com/exmo-dev/exmo_api_lib/blob/master/php/exmo.php

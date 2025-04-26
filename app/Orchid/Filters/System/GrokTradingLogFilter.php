@@ -12,7 +12,7 @@ class GrokTradingLogFilter extends Filter
 {
     public static function runQuery(): iterable
     {
-        return GrokTradingLog::filters([self::class])->paginate(100);
+        return GrokTradingLog::filters([self::class])->orderBy('id', 'DESC')->paginate(100);
     }
 
     public function run(Builder $builder): Builder

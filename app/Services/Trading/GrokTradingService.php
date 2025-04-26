@@ -6,10 +6,12 @@ namespace App\Services\Trading;
 
 use App\Services\Trading\DTO\Components\GrokBalanceDto;
 use App\Services\Trading\DTO\Components\GrokOrderBook;
+use App\Services\Trading\DTO\Components\GrokTradingHistoryComponent;
 use App\Services\Trading\DTO\GrokStockDataDto;
 use App\Services\Trading\Enum\GrokActionEnum;
 use App\Services\Trading\Exmo\ExmoClient;
 use App\Services\Trading\Exmo\GrokClient;
+use Carbon\Carbon;
 
 final readonly class GrokTradingService
 {
@@ -113,7 +115,7 @@ final readonly class GrokTradingService
             if (in_array($key, $pairArr)) {
                 $balance[] = new GrokBalanceDto(
                     currency: $key,
-                    value: $value,
+                    amount: $value,
                 );
             }
         }
@@ -128,9 +130,32 @@ final readonly class GrokTradingService
             high24h: $ticker['high'],
             low24h: $ticker['low'],
             orderBook: $this->getOrderBook($pair),
-            openOrders: $this->getOpenOrders($pair),
-            balance: $balance,
+            myOpenOrders: $this->getOpenOrders($pair),
+            myBalance: $balance,
+            myHistory: $this->getHistory($pair),
         );
+    }
+
+    private function getHistory(string $pair): array
+    {
+        $data = $this->client->getUserTradeHistory($pair);
+
+        $history = [];
+        foreach ($data[$pair] ?? [] as $item) {
+            $history[] = new GrokTradingHistoryComponent(
+                pair: $pair,
+                amount: (float)$item['amount'],
+                date: Carbon::createFromTimestamp($item['date'])->toAtomString(),
+                price: (float)$item['price'],
+                quantity: (float)$item['quantity'],
+                type: $item['type'],
+            );
+
+            // Пока только одну транзакцию
+            return $history;
+        }
+
+        return $history;
     }
 
     private function getOpenOrders(string $pair): array
@@ -181,10 +206,10 @@ final readonly class GrokTradingService
 
     private function buildMessage(string $json): string
     {
-        $message = 'Ты трейдер, анализирующий данные криптовалютной биржи Exmo в формате JSON для торговой пары (например, BTC_USDT).
+        $message = 'Ты трейдер, анализирующий данные криптовалютной биржи Exmo в формате JSON для торговой пары (например, BTC_USDT). Задача торговать на бирже Exmo, используя API.
+Торги в краткосрочной перспективе (от 1 до 5 минут).
 Я предоставляю JSON с текущими рыночными данными (цена, bid, ask, объем, книга ордеров) и списком открытых ордеров.
 Проанализируй данные и дай короткий ответ в формате JSON:
-
 json
 {
   "action": "buy|sell|hold|cancel",
@@ -196,50 +221,11 @@ action: "buy", "sell", "hold" или "cancel" (для отмены сущест�
 price: рекомендованная цена для покупки/продажи (null для "hold" или "cancel").
 orderId: ID ордера для отмены (null, если не отменяется ордер).
 reason: краткое обоснование рекомендации.
-Учитывай текущие открытые ордера, спред, объемы в книге ордеров и рыночные тренды. Данные будут поступать каждые несколько секунд. Вот пример JSON с данными:
-
-{
-  "pair": "BTC_USDT",
-  "lastPrice": "92318.42",
-  "bid": "92307.3",
-  "ask": "92336",
-  "volume24h": "222.99947785",
-  "high24h": "94454",
-  "low24h": "91646.15",
-  "orderBook": {
-    "bids": [
-      {"price": 92307.3, "quantity": 0.397, "sum": 36643.516},
-      {"price": 92300.84, "quantity": 0.6677, "sum": 61630.8031}
-    ],
-    "asks": [
-      {"price": 92336, "quantity": 0.75, "sum": 69252},
-      {"price": 92354.32, "quantity": 0.6944, "sum": 64134.6716}
-    ]
-  },
-  "openOrders": [
-    {
-      "orderId": "12345",
-      "type": "buy",
-      "price": 92000.00,
-      "quantity": 0.1,
-      "filled": 0.05,
-      "status": "open"
-    }
-  ],
-  "balance" : [
-    {
-      "currency" : "USDT",
-      "value" : 1.0E-8
-    },
-    {
-      "currency" : "BTC",
-      "value" : 0.4
-    }
-  ]
-}
+Учитывай текущие открытые ордера, спред, объемы в книге ордеров и рыночные тренды. Данные будут поступать каждые несколько секунд.
 Проанализируй предоставленные данные и верни рекомендацию в указанном формате.
 
 Текущие данные:
+
 ';
 
         $message .= $json;
